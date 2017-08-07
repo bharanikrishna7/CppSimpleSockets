@@ -1,5 +1,5 @@
 #INTRODUCTION
-This project provides simple and scalable Winsock2 C++ sockets implementation for developers. The motivation behind the implementation of this project was to help new C++ developers to very easily and quickly make their applications client server based architecture without much effort.
+This project provides simple and scalable Winsock2 C++ sockets implementation for developers. The motivation behind the implementation of this project was to help new C++ developers to easily and quickly transition their applications to client-server based architecture without much effort.
 
 #KEY FEATURES
 **CLIENT SOCKETS**
