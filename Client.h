@@ -67,6 +67,7 @@
 #define DEFAULT_PORT 8081
 #define DEFAULT_BUFFER 18000
 
+/* Provides interface to perform requests and get response from a Winsock based server */
 class Client {
 public:
 	Client() {
