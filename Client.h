@@ -45,6 +45,12 @@
  * 1. Implement an exit function to for client to disconnect from server.
  * 2. Interface for client to send requests to server without taking argument
  *    from console (terminal / command prompt).
+ *
+ * SHOUTOUT
+ * --------
+ * Huge shoutout to Prof. Jim Fawcett (Syracuse University) for teaching me everything
+ * about Software Development, C++ and Design patterns. Huge props to him.
+ *  
  */
 
 #ifndef CLIENT_H

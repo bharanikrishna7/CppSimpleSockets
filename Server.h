@@ -9,56 +9,61 @@
 // e-mail			-	bharanikrishna7@gmail.com			//
 //////////////////////////////////////////////////////////////
 /*
-* INFORMATION
-* -----------
-* This header provides a winsock based server interface for users to create
-* server applications. The goal of this header is to provide users a simple 
-* and easy to way to implement server type applications by simply inheriting
-* the server class and implementing response function which will do actual
-* processing and send back the response (if the developer desires) to the 
-* clients.
-*
-* Note : 
-* 1> The server is designed to create a server on localhost. But with
-* minor modifications it can be changed to run the server on some other 
-* machine provided the user has access to create and bind sockets to ports 
-* on other machine(s).
-* 
-* 2> At the moment server can connect to only 1 client and once the connection
-* is terminated from client the server stops. This will be changed in next update
-* to allow multiple clients to connect to server and server will be stopped only
-* when the terminate method is called.
-*
-* PACKAGE OPERATIONS
-* ------------------
-* - startServer(int port)
-* This method will start the server by binding the socket to a port on localhost.
-* 
-* - response(clientSocket, buffer, bufferSize)
-* This method takes in 3 arguments : 
-*	1> clientSocket	:= If the user wants to send some response back to client.
-*	2> buffer		:= The request which the user received from the client.
-*	3> bufferSize	:= The size of the request (in bytes).
-*
-* REQUIRED FILES
-* --------------
-* None.
-*
-* OTHER DEPENDENCIES
-* ------------------
-* Platform : Requires Visual C++
-*
-* Maintenance History
-* -------------------
-* ver 1.0 : 08/06/2017
-* - First release.
-*
-* TO-DO
-* -----
-* 1. Implement multiple clients to be able to establish connection with server.
-* 2. Remote Exit Function for server i.e. Client can stop server with some command.
-*
-*/
+ * INFORMATION
+ * -----------
+ * This header provides a winsock based server interface for users to create
+ * server applications. The goal of this header is to provide users a simple 
+ * and easy to way to implement server type applications by simply inheriting
+ * the server class and implementing response function which will do actual
+ * processing and send back the response (if the developer desires) to the 
+ * clients.
+ *
+ * Note : 
+ * 1> The server is designed to create a server on localhost. But with
+ * minor modifications it can be changed to run the server on some other 
+ * machine provided the user has access to create and bind sockets to ports 
+ * on other machine(s).
+ * 
+ * 2> At the moment server can connect to only 1 client and once the connection
+ * is terminated from client the server stops. This will be changed in next update
+ * to allow multiple clients to connect to server and server will be stopped only
+ * when the terminate method is called.
+ *
+ * PACKAGE OPERATIONS
+ * ------------------
+ * - startServer(int port)
+ * This method will start the server by binding the socket to a port on localhost.
+ * 
+ * - response(clientSocket, buffer, bufferSize)
+ * This method takes in 3 arguments : 
+ *	1> clientSocket	:= If the user wants to send some response back to client.
+ *	2> buffer		:= The request which the user received from the client.
+ *	3> bufferSize	:= The size of the request (in bytes).
+ *
+ * REQUIRED FILES
+ * --------------
+ * None.
+ *
+ * OTHER DEPENDENCIES
+ * ------------------
+ * Platform : Requires Visual C++
+ *
+ * Maintenance History
+ * -------------------
+ * ver 1.0 : 08/06/2017
+ * - First release.
+ *
+ * TO-DO
+ * -----
+ * 1. Implement multiple clients to be able to establish connection with server.
+ * 2. Remote Exit Function for server i.e. Client can stop server with some command.
+ *
+ * SHOUTOUT
+ * --------
+ * Huge shoutout to Prof. Jim Fawcett (Syracuse University) for teaching me everything
+ * about Software Development, C++ and Design patterns. Huge props to him.
+ *
+ */
 #ifndef SERVER_H
 #define SERVER_H
 
