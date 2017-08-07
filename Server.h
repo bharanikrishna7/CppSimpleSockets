@@ -1,12 +1,12 @@
 //////////////////////////////////////////////////////////////
-// Server.h			-	Server Base Class to create winsock	//
-//						based Server Application.			//
-// Version			-	1.0 (final)							//
-// Last Modified	-	08/06/2017							//
-// Language			-	Visual C++, Visual Studio 2015		//
-// Platform			-	MSI GE62 2QD, Core-i7, Windows 10	//
-// Author			-	Venkata Bharani Krishna Chekuri		//
-// e-mail			-	bharanikrishna7@gmail.com			//
+// Server.h         - Server Base Class to create winsock   //
+//                    based Server Application.             //
+// Version          - 1.0                                   //
+// Last Modified    - 08/06/2017                            //
+// Language         - Visual C++, Visual Studio 2015        //
+// Platform         - MSI GE62 2QD, Core-i7, Windows 10     //
+// Author           - Venkata Bharani Krishna Chekuri       //
+// e-mail           - bharanikrishna7@gmail.com             //
 //////////////////////////////////////////////////////////////
 /*
  * INFORMATION
