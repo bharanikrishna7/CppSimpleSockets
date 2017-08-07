@@ -8,7 +8,7 @@ Client.h provides a simple static function which a developer can use to request 
 **SERVER SOCKETS**
 Server.h provides an abstract class which can be used to make a derived class Winsock based server. The developer just needs to implement the function ***response*** to process requests from clients. This allows developers to worry less on the Socket programming and more on their application features.
 
-#BUGS AND TO-DO
+#UPDATE
 * Implement multiple clients to be able to establish connection with server.
 * Remote Exit Function for server i.e. Client can stop server with some command.
 * Implement an exit function to for client to disconnect from server.

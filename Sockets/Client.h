@@ -1,7 +1,7 @@
 //////////////////////////////////////////////////////////////
 // Client.h         - Client Class to Connect and Recieve   //
 //                    response from Winsock based Server.   //
-// Version          - 1.0                                   //
+// Version          - 1.1                                   //
 // Last Modified    - 08/06/2017                            //
 // Language         - Visual C++, Visual Studio 2015        //
 // Platform         - MSI GE62 2QD, Core-i7, Windows 10     //
@@ -29,7 +29,7 @@
  *
  * REQUIRED FILES
  * --------------
- * None.
+ * SocketCommons.h, Utilities.h, Utilities.cpp
  *
  * OTHER DEPENDENCIES
  * ------------------
@@ -40,41 +40,30 @@
  * ver 1.0 : 08/06/2017
  * - First release.
  *
- * TO-DO
- * ------
- * 1. Implement an exit function to for client to disconnect from server.
- * 2. Interface for client to send requests to server without taking argument
- *    from console (terminal / command prompt).
- *
- * SHOUTOUT
- * --------
- * Huge shoutout to Prof. Jim Fawcett (Syracuse University) for teaching me everything
- * about Software Development, C++ and Design patterns. Huge props to him.
- *  
+ * ver 1.1 : 08/07/2017
+ * - Moved common includes and defines to SocketCommons.h header file.
+ * - Made changes to if block in line 109. Now it has else block to properly
+ *   terminate the client connection.
+ * - Interface for client to send requests to server without taking argument
+ *   from console (terminal / command prompt).
  */
 
 #ifndef CLIENT_H
 #define CLIENT_H
 
 #include <string>
-#include <iostream>
-#include <WS2tcpip.h>
 
-// Easier to do it here that add "Ws2_32.lib" in linker.
-#pragma comment(lib, "Ws2_32.lib")
+#include "SocketCommons.h"
 
-#define DEFAULT_IP "127.0.0.1"
-#define DEFAULT_PORT 8081
-#define DEFAULT_BUFFER 18000
-
-/* Provides interface to perform requests and get response from a Winsock based server */
 class Client {
+private:
+
 public:
 	Client() {
 		// do nothing
 	}
 
-	static void Connect(std::string& result, std::string ip = DEFAULT_IP, int port = DEFAULT_PORT, bool verbose = false) {
+	static void Connect(std::string& result, std::string ip = DEFAULT_IP, int port = DEFAULT_PORT, char* request = nullptr, bool verbose = false) {
 		result.clear();
 		// Initialize Winsock
 		WSAData wsData;
@@ -115,7 +104,10 @@ public:
 			Sleep(100);
 			// Create a prompt
 			std::cout << "\n > ";
-			std::getline(std::cin, userInput);
+			if (request == nullptr)
+				std::getline(std::cin, userInput);
+			else
+				userInput = request;
 			if (userInput.size() > 0) {
 				// Send Text
 				int sendResult = send(clientSocket, userInput.c_str(), userInput.size() + 1, 0);
@@ -130,12 +122,16 @@ public:
 							std::cout << "SERVER > " << std::string(buf, 0, bytesReceived);
 					}
 				}
+				else {
+					break;
+				}
+				if (request != nullptr)
+					request = TERMINATE_CLIENT_COMMAND;
 			}
 		} while (userInput.size() > 0);
 
-
-
 		// Close down everything
+		std::cout << "\n Closing Socket : " << SocketUtilities::getClientInfo(clientSocket) << std::endl;
 		closesocket(clientSocket);
 		WSACleanup();
 	}

@@ -19,7 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{184AC24D-EFD2-44DD-89F7-C95C0C8325FE}</ProjectGuid>
+    <ProjectGuid>{8A298FAA-2F2D-4DEC-B86A-751DB83B43FE}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>Sockets</RootNamespace>
     <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
@@ -142,13 +142,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="..\Utilities\Utilities.h" />
     <ClInclude Include="Client.h" />
     <ClInclude Include="Server.h" />
+    <ClInclude Include="SocketCommons.h" />
+    <ClInclude Include="Utilities.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\Utilities\Utilities.cpp" />
     <ClCompile Include="TestSockets.cpp" />
+    <ClCompile Include="Utilities.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
