@@ -1,28 +1,29 @@
 #ifndef UTILITIES_H
 #define UTILITIES_H
-//////////////////////////////////////////////////////////////
-// Utilities.h      - small, generally useful, helper       //
-//                    classes and static functions          //
-// Version          - 1.2                                   //
-// Last Modified    - 08/05/2017                            //
-// Language         - Visual C++, Visual Studio 2015        //
-// Platform         - MSI GE62 2QD, Core-i7, Windows 10     //
-// Author           - Venkata Bharani Krishna Chekuri       //
-// e-mail           - bharanikrishna7@gmail.com             //
-//////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////
+// Utilities.h      - small, generally useful, helper classes	//
+// Version          - 1.1                                       //
+// Last Modified    - 05/05/2016                                //
+// Language         - Visual C++, Visual Studio 2015            //
+// Platform         - MSI GE62 2QD, Core-i7, Windows 10         //
+// Author           - Venkata Bharani Krishna Chekuri           //
+// e-mail           - bharanikrishna7@gmail.com                 //
+//////////////////////////////////////////////////////////////////
 /*
- * Package Operations:
- * -------------------
+ * INTRODUCTION
+ * ------------
  * This package provides classes StringHelper and Converter and a global
- * function putline().  This class will be extended continuously for
- * awhile to provide convenience functions for general C++ applications.
+ * function putline(). This class will be developed continuously to provide 
+ * convenience functions for general C++ applications.
  *
- * Build Process:
+ *
+ * REQUIRED FILES
  * --------------
- * Required Files: Utilities.h, Utilities.cpp
+ * N/A
  *
- * Maintenance History:
- * --------------------
+ *
+ * CHANGELOG
+ * ---------
  * ver 1.0 : 02/08/2016
  * - first release.
  *
@@ -34,9 +35,6 @@
  *	> Test Stub helper functions are now member functions
  *	  (This has no impact on Utilities class)
  *
- * ver 1.2 : 08/05/2017
- * - Added TimeHelper Class and Converter Class.
- * 
  */
 #include <ctime>
 #include <string>
@@ -48,14 +46,16 @@
 #include <iostream>
 #include <algorithm>
 #include <functional>
-#include <WS2tcpip.h>
 
-// Easier to do it here that add "Ws2_32.lib" in linker.
-#pragma comment(lib, "Ws2_32.lib")
-
+/// <summary>
+/// Namespace Containing Methods which are Commonly used 
+/// Throughout whole Solution in Multiple Packages.
+/// </summary>
 namespace Utilities
 {
-	// StringHelper Class
+	/// <summary>
+	/// Class Containing Static Functions to Perform operations on Strings.
+	/// </summary>
 	class StringHelper {
 	public:
 		static std::vector<std::string> split(const std::string& src);
@@ -68,7 +68,10 @@ namespace Utilities
 
 	void putline();
 
-	// Timer Class
+	/// <summary>
+	/// Class Which Helps in Timing Operations. Useful when benchmarking
+	/// methods. 
+	/// </summary>
 	class Timer {
 	public:
 		bool StartClock();
@@ -85,14 +88,21 @@ namespace Utilities
 		static std::string timestamptoStrimg(long long int ts);
 	};
 
-	template <typename T>
-	class Converter
-	{
+	/// <summary>
+	/// Template Class To Convert Objects To and From String.
+	/// </summary>
+	template <typename T> 
+	class Converter {
 	public:
 		static std::string toString(const T& t);
 		static T toValue(const std::string& src);
 	};
 
+	/// <summary>
+	/// Function to Convert an Object to String.
+	/// </summary>
+	/// <param name="t">Object to be Converted to String</param>
+	/// <returns></returns>
 	template <typename T>
 	std::string Converter<T>::toString(const T& t)
 	{
@@ -101,7 +111,12 @@ namespace Utilities
 		return out.str();
 	}
 
-	template<typename T>
+	/// <summary>
+	/// Function to Convert a String to other Data Type.
+	/// </summary>
+	/// <param name="src">String which has to be castead to Specified Data Type</param>
+	/// <returns>Object with Specified Data Type Converted From String</returns>
+	template<typename T> 
 	T Converter<T>::toValue(const std::string& src)
 	{
 		std::istringstream in(src);

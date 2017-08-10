@@ -1,60 +1,70 @@
-//////////////////////////////////////////////////////////////
-// Utilities.h      - small, generally useful, helper       //
-//                    classes and static functions.         //
-// Version          - 1.2                                   //
-// Last Modified    - 08/05/2017                            //
-// Language         - Visual C++, Visual Studio 2015        //
-// Platform         - MSI GE62 2QD, Core-i7, Windows 10     //
-// Author           - Venkata Bharani Krishna Chekuri       //
-// e-mail           - bharanikrishna7@gmail.com             //
-//////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
+// Utilities.cpp - small, generally useful, helper classes					//
+// Version :	  1.0                                                       //
+// Language:      Visual C++, Visual Studio 2015							//
+// Platform:      MSI GE62 2QD, Core-i7, Windows 10							//
+// Application:   Code Parser with AST										//
+// Author:		  Venkata Bharani Krishna Chekuri							//
+//                vbchekur@syr.edu											//
+//////////////////////////////////////////////////////////////////////////////
 
 #include "Utilities.h"
 
 using namespace Utilities;
 
-/////////////////////////////////////////////////////////////////////////
-/* Display Title with a character underline (default character is '_') */
+/// <summary>
+/// Function to Show String with a character underline.
+/// </summary>
+/// <param name="src">String which has to be underlined</param>
+/// <param name="underline">Character which will be used to Underline (Default is '-')</param>
 void StringHelper::Title(const std::string& src, char underline)
 {
 	std::cout << "\n " << src;
 	std::cout << "\n " << std::string(src.size() + 1, underline);
 }
 
-////////////////////////////
-/* Function for Left Trim */
+/// <summary>
+/// Function to perform Left Trim on a String.
+/// </summary>
+/// <param name="s">String to Left Trim</param>
+/// <returns>Left Trimmed String</returns>
 std::string StringHelper::ltrim(std::string &s) {
 	s.erase(s.begin(), std::find_if(s.begin(), s.end(), std::not1(std::ptr_fun<int, int>(std::isspace))));
 	return s;
 }
 
-/////////////////////////////
-/* Function for Right Trim */
+/// <summary>
+/// Function to perform Right Trim on a String.
+/// </summary>
+/// <param name="s">String to Right Trim</param>
+/// <returns>Right Trimmed String</returns>
 std::string StringHelper::rtrim(std::string &s) {
 	s.erase(std::find_if(s.rbegin(), s.rend(), std::not1(std::ptr_fun<int, int>(std::isspace))).base(), s.end());
 	return s;
 }
 
-//////////////////////////////////
-/* Function for Left Right Trim */
+/// <summary>
+/// Function to perform Left-Right Trim.
+/// </summary>
+/// <param name="s">String to Left-Right Trim</param>
+/// <returns>Left-Right Trimmed String</returns>
 std::string StringHelper::lrtrim(std::string &s) {
 	return ltrim(rtrim(s));
 }
 
-////////////////////////////////////////////////////////////////////
-/* Split a string at ',' and return these sub-strings as a vector */
-std::vector<std::string> StringHelper::split(const std::string& src)
-{
+/// <summary>
+/// Function to Split a string at ','
+/// </summary>
+/// <param name="src">String to Split</param>
+/// <returns>Vector of Split Sub-Strings</returns>
+std::vector<std::string> StringHelper::split(const std::string& src) {
 	std::vector<std::string> accum;
 	std::string temp;
 	size_t index = 0;
-	do
-	{
-		while ((isspace(src[index]) || src[index] == ',') && src[index] != '\n')
-		{
+	do {
+		while ((isspace(src[index]) || src[index] == ',') && src[index] != '\n') {
 			++index;
-			if (temp.size() > 0)
-			{
+			if (temp.size() > 0) {
 				accum.push_back(temp);
 				temp.clear();
 			}
@@ -67,28 +77,37 @@ std::vector<std::string> StringHelper::split(const std::string& src)
 	return accum;
 }
 
-//////////////////////////////////////////////
-/* Print newline to console (pointless TBH) */
+/// <summary>
+/// Print New Line to Console. Has no Value Except for Reducing Typing
+/// in Testing.
+/// </summary>
 void Utilities::putline() {
 	std::cout << "\n";
 }
 
-/////////////////////
-/* Start the timer */
+/// <summary>
+/// Function to Start the Timer.
+/// </summary>
+/// <returns>True if the timer has been started (it always does)</returns>
 bool Timer::StartClock() {
 	time = clock();
 	return true;
 }
 
-//////////////////////////////////////////////////
-/* Stop Timer and Return the time elapsed in ms */
+/// <summary>
+/// Function to Stop Timer and Return the Time Elapsed in milliseconds.
+/// </summary>
+/// <returns>Time Elapsed in Milliseconds</returns>
 int Timer::StopClock() {
 	time = clock() - time;
 	return (int)(time / double(CLOCKS_PER_SEC) * 1000);
 }
 
-//////////////////////////////////////////////////////////////////
-/* Function to left pad zero when the parameter is less than 10 */
+/// <summary>
+/// Function to Left Pad Zero when the Parameter is less than 10.
+/// </summary>
+/// <param name="val">Value to be potentially Left-padded</param>
+/// <returns>Argument in String Format with 2 digits. If Argument was less than 10 then 0 is left padded otherwise the argument is returned as it was.</returns>
 std::string TimeHelper::leftpadZero(int val) {
 	if (val / 10 == 0)
 		return "0" + std::to_string(val);
@@ -97,10 +116,12 @@ std::string TimeHelper::leftpadZero(int val) {
 
 #pragma warning(push)
 #pragma warning(disable : 4996)
-////////////////////////////////////////////////////////////////
-/* Function to get current timestamp in yyyyMMddhhmmss format */
+/// <summary>
+/// Function to get Current Timestamp in yyyyMMddhhmmss Format.
+/// </summary>
+/// <returns>Current Timestamp in yyyyMMddhhmmss Format as long long int</returns>
 long long int TimeHelper::getCurrentTimestamp() {
-	time_t t = time(0);				// get current time
+	time_t t = time(0);							// get current time
 	struct tm * now = now = localtime(&t);
 	long long int ts = 1;
 	ts = (now->tm_year + 1900);
@@ -113,8 +134,11 @@ long long int TimeHelper::getCurrentTimestamp() {
 }
 #pragma warning(pop)
 
-///////////////////////////////////////////////////////////////////////////////
-/* Function to convet long long int timestamp to user readable string format */
+/// <summary>
+/// Function to convet long long int timestamp to user readable string format.
+/// </summary>
+/// <param name="ts">long long int timestamp in yyyyMMddhhmmss</param>
+/// <returns>Timestamp in yyyy/MM/dd hh:mm:ss Format as String</returns>
 std::string TimeHelper::timestamptoStrimg(long long int ts) {
 	if (ts / 10000000000000 == 0)
 		return "Invalid Timestamp";
@@ -134,6 +158,11 @@ std::string TimeHelper::timestamptoStrimg(long long int ts) {
 
 #pragma warning(push)
 #pragma warning(disable : 4996)
+/// <summary>
+/// Function to Convert a String to char Array.
+/// </summary>
+/// <param name="str">String to be converted to char Array</param>
+/// <returns>Char array pointer of the Argument String</returns>
 char * StringHelper::stringToCharArr(std::string str) {
 	return &str[0u];
 }
@@ -141,8 +170,10 @@ char * StringHelper::stringToCharArr(std::string str) {
 
 /* Test Stub */
 #ifdef TEST_UTILITIES
-/////////////////////////
-/* Test Trim Functions */
+
+/// <summary>
+/// Test Trim Functions
+/// </summary>
 void test_trim() {
 	StringHelper::Title("Test Trim Operations", '-');
 	// The trim operation is returns reference so the object passed to it is modified
@@ -163,8 +194,9 @@ void test_trim() {
 	std::cout << "\n\n ";
 }
 
-//////////////////////////////
-/* Test Converter Functions */
+/// <summary>
+/// Test Converter Functions.
+/// </summary>
 void test_converter() {
 	StringHelper::Title("Test std::string Converter<T>::toString(T)", '-');
 
@@ -186,8 +218,10 @@ void test_converter() {
 	std::cout << "\n\n ";
 }
 
-/////////////////////////
-/* Test Split Function */
+
+/// <summary>
+/// Test String Split Function.
+/// </summary>
 void test_split() {
 	StringHelper::Title("Test StringHelper::split(std::string)", '-');
 
@@ -208,8 +242,9 @@ void test_split() {
 	std::cout << "\n\n ";
 }
 
-//////////////////////////////
-/* Test Timestamp Functions */
+/// <summary>
+/// Test Timestamp Functions.
+/// </summary>
 void test_timestamp() {
 	StringHelper::Title("Test getCurrentTimestamp", '-');
 	std::cout << "\n Current Timestamp in yyyyMMddhhmmss fomat : " + std::to_string(TimeHelper::getCurrentTimestamp());
@@ -217,14 +252,16 @@ void test_timestamp() {
 	std::cout << "\n\n ";
 }
 
-////////////////////////
-/* Main Test Function */
+/// <summary>
+/// Function to Test Utilities Package.
+/// </summary>
+/// <returns></returns>
 int main()
 {
 	Timer time;
 	time.StartClock();
 
-	StringHelper::Title("Testing Utilities Package", '=');
+	StringHelper::Title("TESTING UTILITIES PACKAGE", '=');
 	putline();
 
 	// Test string split

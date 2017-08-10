@@ -1,9 +1,9 @@
 //////////////////////////////////////////////////////////////
 // Client.h         - Client Class to Connect and Recieve   //
 //                    response from Winsock based Server.   //
-// Version          - 1.1                                   //
+// Version          - 1.0 (final)                           //
 // Last Modified    - 08/06/2017                            //
-// Language         - Visual C++, Visual Studio 2015        //
+// Language         - Visual C++, Visual Studio 2017        //
 // Platform         - MSI GE62 2QD, Core-i7, Windows 10     //
 // Author           - Venkata Bharani Krishna Chekuri       //
 // e-mail           - bharanikrishna7@gmail.com             //
@@ -20,6 +20,7 @@
  * use interface to query a winsock based server without having to implement 
  * the client sockets in their application class(es).
  *
+ *
  * PACKAGE OPERATIONS
  * ------------------
  * - Connect(result, ip, port, verbose)
@@ -27,16 +28,19 @@
  * method. The response from the server is stored in the "result" string which
  * user pases as an argument.
  *
+ *
  * REQUIRED FILES
  * --------------
  * SocketCommons.h, Utilities.h, Utilities.cpp
+ *
  *
  * OTHER DEPENDENCIES
  * ------------------
  * Platform : Requires Visual C++
  *
- * Maintenance History
- * -------------------
+ *
+ * CHANGELOG
+ * ---------
  * ver 1.0 : 08/06/2017
  * - First release.
  *
@@ -56,16 +60,33 @@
 #include "SocketCommons.h"
 
 class Client {
-private:
-
 public:
+	/// <summary>
+	/// Default Constructor. Does nothing.
+	/// 
+	/// Will never be used.
+	/// </summary>
 	Client() {
 		// do nothing
 	}
 
+	/// <summary>
+	/// Function to Connect to A Winsock Based Server.
+	/// 
+	/// Connection can be done in two ways. 
+	/// First way is to perform a REST API Type Request to the Server by passing Request Argument.
+	/// 
+	/// Second way is to establish a connection to Get a Prompt through which user can pass Requests and
+	/// get Responses.
+	/// </summary>
+	/// <param name="result">Response From the Server</param>
+	/// <param name="ip">IP of the Server</param>
+	/// <param name="port">Port of the Server</param>
+	/// <param name="request">Client Request to the Server. If nullptr then Client will switch from API Mode to Prompt Mode</param>
+	/// <param name="verbose">Verbose Mode (Debugging)</param>
 	static void Connect(std::string& result, std::string ip = DEFAULT_IP, int port = DEFAULT_PORT, char* request = nullptr, bool verbose = false) {
 		result.clear();
-		// Initialize Winsock
+		/* Initialize Winsock */
 		WSAData wsData;
 		WORD version = MAKEWORD(2, 2);
 		int wsStatus = WSAStartup(version, &wsData);
@@ -74,7 +95,7 @@ public:
 			return;
 		}
 
-		// Create Socket
+		/* Create Socket */
 		SOCKET clientSocket = socket(AF_INET, SOCK_STREAM, 0);
 		if (clientSocket == INVALID_SOCKET) {
 			std::cerr << "\n Cant Create Socket. Err #" << WSAGetLastError() << std::endl;
@@ -82,13 +103,13 @@ public:
 			return;
 		}
 
-		// Fill in hint structure
+		/* Fill in hint structure */
 		sockaddr_in hint;
 		hint.sin_family = AF_INET;
 		hint.sin_port = htons(port);
 		inet_pton(AF_INET, ip.c_str(), &hint.sin_addr.S_un.S_addr);
 
-		// Connect to server
+		/* Connect to server */
 		int connResult = connect(clientSocket, (sockaddr*)&hint, sizeof(hint));
 		if (connResult == SOCKET_ERROR) {
 			std::cerr << "\n Can't connect to Server " << ip << ":" << port << ". Err #" << WSAGetLastError() << std::endl;
@@ -97,7 +118,7 @@ public:
 			return;
 		}
 
-		// Do while loop to send and recv data
+		/* Do while loop to send and receive data */
 		std::string userInput;
 		char buf[DEFAULT_BUFFER];
 		do {
@@ -111,6 +132,10 @@ public:
 			if (userInput.size() > 0) {
 				// Send Text
 				int sendResult = send(clientSocket, userInput.c_str(), userInput.size() + 1, 0);
+				// Check for Client or Server Termination Commands
+				if (Utilities::StringHelper::lrtrim(std::string(userInput)) == TERMINATE_CLIENT_COMMAND || 
+					Utilities::StringHelper::lrtrim(std::string(userInput)) == TERMINATE_SERVER_COMMAND)
+					break;
 				if (sendResult != SOCKET_ERROR) {
 					// wait for response
 					ZeroMemory(buf, DEFAULT_BUFFER);
@@ -130,8 +155,8 @@ public:
 			}
 		} while (userInput.size() > 0);
 
-		// Close down everything
-		std::cout << "\n Closing Socket : " << SocketUtilities::getClientInfo(clientSocket) << std::endl;
+		/* Close down everything */
+		std::cout << "\n Terminating Client." << std::endl;
 		closesocket(clientSocket);
 		WSACleanup();
 	}

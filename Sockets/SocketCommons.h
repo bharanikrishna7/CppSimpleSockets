@@ -1,15 +1,13 @@
-#ifndef SOCKETCOMMONS_H
-#define SOCKETCOMMONS_H
-//////////////////////////////////////////////////////////////
-// SocketCommons.h  - This class contains all the common    //
-//                    things which Server.h & Client.h use. //
-// Version          - 1.0                                   //
-// Last Modified    - 08/07/2017                            //
-// Language         - Visual C++, Visual Studio 2015        //
-// Platform         - MSI GE62 2QD, Core-i7, Windows 10     //
-// Author           - Venkata Bharani Krishna Chekuri       //
-// e-mail           - bharanikrishna7@gmail.com             //
-//////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////
+// SocketCommons.h  - This class contains all the common        //
+//                    things which Server.h & Client.h use.     //
+// Version          - 1.0 (final)                               //
+// Last Modified    - 08/06/2017                                //
+// Language         - Visual C++, Visual Studio 2017            //
+// Platform         - MSI GE62 2QD, Core-i7, Windows 10         //
+// Author           - Venkata Bharani Krishna Chekuri           //
+// e-mail           - bharanikrishna7@gmail.com                 //
+//////////////////////////////////////////////////////////////////
 /*
  * INFORMATION
  * -----------
@@ -25,35 +23,44 @@
  * ------------------
  * Platform : Requires Visual C++
  *
- * Maintenance History
- * -------------------
+ * CHANGELOG
+ * ---------
  * ver 1.0 : 08/07/2017
  * - First release.
  *
  */
+#ifndef SOCKETCOMMONS_H
+#define SOCKETCOMMONS_H
 
 #include <iostream>
 #include <WS2tcpip.h>
 
-// Easier to do it here that add "Ws2_32.lib" in linker.
+/* Easier to do it here that add "Ws2_32.lib" in linker. */
 #pragma comment(lib, "Ws2_32.lib")
 
-#define DEFAULT_PORT 8081
-#define DEFAULT_BUFFER 18000
-#define DEFAULT_IP "127.0.0.1"
+#define DEFAULT_PORT 8081				// Default Port to Initialize Server
+#define DEFAULT_BUFFER 18000			// Default Message Buffer Size.
+#define DEFAULT_IP "127.0.0.1"			// Default IP Address where the Client Connects.
 
+/* Server Commands To Terminate Connections */
 #define TERMINATE_CLIENT_COMMAND "termClient();"
 #define TERMINATE_SERVER_COMMAND "termServer();"
 
 #include "Utilities.h"
 
-/* Contains Static Utility Functions for Client and Server Sockets */
+/// <summary>
+/// Class containing Static Utility Functions for Client and Server Sockets.
+/// </summary>
 class SocketUtilities {
 public:
 	static std::string getClientInfo(SOCKET& client);
 };
 
-/* Function to retrieve IP Address and Port information from a SOCKET */
+/// <summary>
+/// Function to retrieve IP Address and Port information from a SOCKET
+/// </summary>
+/// <param name="client">Client Socket</param>
+/// <returns>Address and Port associated with Supplied Socket</returns>
 std::string SocketUtilities::getClientInfo(SOCKET& client) {
 	socklen_t len;
 	struct sockaddr_storage addr;
